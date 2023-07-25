@@ -26,7 +26,7 @@ def interpolateTwoSetsOfValues(t, valuesA, valuesB):
     for idx, valueA in enumerate(valuesA):
         valueB = valuesB[idx]
         interpolatedValues.append(interpolation(valueA,valueB,t))
-    return interpolatedValues
+    return tuple(interpolatedValues)
 
 
 def rotatePoint(P, alfa, originPoint):

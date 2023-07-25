@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="A" format="2">
+  <advance width="500"/>
+  <unicode hex="0041"/>
+  <outline>
+    <contour>
+      <point x="140" y="352" type="line"/>
+      <point x="140" y="265"/>
+      <point x="233" y="183"/>
+      <point x="309" y="183" type="qcurve"/>
+      <point x="354" y="183"/>
+      <point x="392" y="208"/>
+      <point x="389" y="241"/>
+      <point x="370" y="253" type="qcurve"/>
+      <point x="370" y="351" type="line"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.rafalbuchner.StemPlow.StemPlowRuler</key>
+      <dict>
+        <key>anchor_t</key>
+        <integer>0</integer>
+        <key>contour_index</key>
+        <integer>0</integer>
+        <key>segment_index</key>
+        <integer>0</integer>
+      </dict>
+    </dict>
+  </lib>
+</glyph>
