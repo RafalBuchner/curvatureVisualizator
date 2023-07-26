@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="a" format="2">
+  <advance width="542"/>
+  <unicode hex="0061"/>
+  <outline>
+    <contour>
+      <point x="517" y="0" type="line"/>
+      <point x="517" y="340" type="line" smooth="yes"/>
+      <point x="517" y="433"/>
+      <point x="393" y="537"/>
+      <point x="280" y="537" type="qcurve"/>
+      <point x="171" y="537"/>
+      <point x="38" y="442"/>
+      <point x="37" y="364" type="qcurve"/>
+      <point x="207" y="364" type="line"/>
+      <point x="208" y="383"/>
+      <point x="239" y="402"/>
+      <point x="270" y="402" type="qcurve"/>
+      <point x="307" y="402"/>
+      <point x="334" y="374"/>
+      <point x="334" y="338" type="qcurve"/>
+      <point x="334" y="135" type="line"/>
+      <point x="364" y="0" type="line"/>
+    </contour>
+    <contour>
+      <point x="272" y="232" type="qcurve"/>
+      <point x="339" y="244" type="line"/>
+      <point x="339" y="331" type="line"/>
+      <point x="272" y="319" type="line"/>
+      <point x="212" y="308"/>
+      <point x="91" y="278"/>
+      <point x="52" y="247" type="qcurve"/>
+      <point x="31" y="230"/>
+      <point x="6" y="180"/>
+      <point x="6" y="146" type="qcurve"/>
+      <point x="6" y="73"/>
+      <point x="95" y="-10"/>
+      <point x="167" y="-10" type="qcurve"/>
+      <point x="224" y="-10"/>
+      <point x="316" y="47"/>
+      <point x="350" y="107" type="qcurve"/>
+      <point x="334" y="224" type="line"/>
+      <point x="334" y="186"/>
+      <point x="278" y="126"/>
+      <point x="239" y="126" type="qcurve"/>
+      <point x="216" y="126"/>
+      <point x="188" y="153"/>
+      <point x="188" y="175" type="qcurve"/>
+      <point x="188" y="198"/>
+      <point x="226" y="224"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.rafalbuchner.StemPlow.StemPlowRuler</key>
+      <dict>
+        <key>anchor_t</key>
+        <integer>0</integer>
+        <key>contour_index</key>
+        <integer>0</integer>
+        <key>segment_index</key>
+        <integer>0</integer>
+      </dict>
+    </dict>
+  </lib>
+</glyph>
