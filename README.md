@@ -1,1 +1,1 @@
-# curvatureVisualizator
+# Curvature Visualizator

@@ -1,4 +1,6 @@
 import math
+
+# import drawBot as bot
 # def dp(p,s=10):
 #     x, y = p
 #     r = s/2
@@ -14,12 +16,43 @@ import math
 #     elif len(points) == 2:
 #         lineTo(*points[1:])
 #     drawPath()
-    
+#
+# def drawCurvatureVisForCurveWith2ColorGradient_drawBot(colorPalette, lengthMultiplier, angleModificator, steps, *points):
+#     color1, color2 = colorPalette
+#     with bot.savedState():
+#         for i in range(steps):
+#             nextIdx = i + 1
+#             t = i/(steps-1)
+#             oncurve1, curvatureVis1 = getCurvatureVisLineForT(lengthMultiplier, angleModificator, t, *points)
+#             if nextIdx < steps:
+#                 next_t = nextIdx/(steps-1)
+#                 next_oncurve1, next_curvatureVis1 = getCurvatureVisLineForT(lengthMultiplier, angleModificator, next_t, *points)
+#             else:
+#                 break
+#             bot.fill(*interpolateTwoSetsOfValues(t, color1, color2))
+#             bot.polygon(oncurve1, curvatureVis1, next_curvatureVis1, next_oncurve1)
+
+# def drawCurvatureVisForCurve_drawBot(colorPalette, lengthMultiplier, angleModificator, steps, *points):
+#     outerOutline = []
+#     oncurveOutline = []
+#     for i in range(steps):
+#         t = i/(steps-1)
+#         oncurve1, curvatureVis1 = getCurvatureVisLineForT(lengthMultiplier, angleModificator, t, *points)
+#         oncurveOutline.append(oncurve1)
+#         outerOutline.append(curvatureVis1)
+#     with bot.savedState():
+#         bot.fill(*colorPalette)
+#         bot.stroke(None)
+#         bot.polygon(*outerOutline+list(reversed(oncurveOutline)))
+#         bot.stroke(colorPalette[0],colorPalette[1],colorPalette[2])
+#         bot.fill(None)
+#         bot.polygon(*outerOutline, close=False)
+
 def interpolateTwoSetsOfValues(t, valuesA, valuesB):
     if not (isinstance(valuesA, int) or isinstance(valuesA, float)):
         assert len(valuesA) == len(valuesB)
     else:
-         assert (isinstance(valuesA, int) or isinstance(valuesA, float)) and (isinstance(valuesB, int) or isinstance(valuesB, float))   
+         assert (isinstance(valuesA, int) or isinstance(valuesA, float)) and (isinstance(valuesB, int) or isinstance(valuesB, float))
          valuesA = [valuesA]
          valuesB = [valuesB]
     interpolatedValues = []
@@ -47,7 +80,7 @@ def rotatePoint(P, alfa, originPoint):
     )
 
     return x, y
-    
+
 def calcAngle(A, B):
     """returns angle between line AB and axis x"""
     ax, ay = A
@@ -74,7 +107,7 @@ def interpolation(v1, v2, t):
     """one-dimentional bezier curve equation for interpolating"""
     vt = v1 * (1 - t) + v2 * t
     return vt
-    
+
 def calcSeg(t, *points):
     assert isinstance(t, float), "calcSeg ERROR: t is not a float"
 
@@ -143,7 +176,7 @@ def calcDeriverate(*points):
         (p1x,p1y),(p2x,p2y) = points
         a = (p2x-p1x), (p2y-p1y)
         return (a,)
-        
+
     elif len(points) == 3:
         (p1x,p1y),(p2x,p2y),(p3x,p3y) = points
         a = 2*(p2x-p1x), 2*(p2y-p1y)
@@ -166,7 +199,7 @@ def calcCurvatureAtT(t, *points):
     ddx, ddy = calcSeg(t, *dd)
     num = dx * ddy - ddx * dy
     dnom = math.pow(dx*dx + dy*dy, 3/2)
-    if num == 0 or dnom == 0: 
+    if num == 0 or dnom == 0:
         return 0
     return num / dnom # kappa
 
@@ -176,113 +209,48 @@ def calcCurvatureAtTA_oncurve_angle(t, *points):
     onCurve = calcSeg(t, *points)
     d = calcDeriverate(*points) # 1st derivative
     dd = calcDeriverate(*d) # 2nd derivative
-    
+
     dx, dy = calcSeg(t, *d)
 
     ddx, ddy = calcSeg(t, *dd)
     #print(2)
     vectorAngle = calcAngle((0,0), (dx, dy))
-     
+
     num = dx * ddy - ddx * dy
     dnom = math.pow(dx*dx + dy*dy, 3/2)
 
-    if num == 0 or dnom == 0: 
+    if num == 0 or dnom == 0:
         return 0, onCurve, vectorAngle
     return num / dnom, onCurve, vectorAngle
 
-def getCurvatureVisLineForT(lengthMultiplier, angleModificator, t, *points):  
+def getCurvatureVisLineForT(lengthMultiplier, angleModificator, t, *points):
     data = calcCurvatureAtTA_oncurve_angle(t, *points)
-    
+
     kappa, oncurve, vectorAngle = data
     #print(f"t{t}, kappa {kappa}, oncurve {oncurve}, vectorAngle {vectorAngle}")
     refCurvaturePoint = (oncurve[0]+kappa*lengthMultiplier, oncurve[1])
     vectorAngle += angleModificator
     curvatureVis = rotatePoint(refCurvaturePoint, vectorAngle, oncurve)
     return oncurve, curvatureVis
-    
-# points = (
-#         (112, 270),
-#         (112, 446),
-#         #(670, 366),
-#         (250, 446)
-#     )
 
-# #d = calcDeriverate(*points)
-# #dd = calcDeriverate(*d)
+def drawCurvatureVisForCurve_merz(fillPen, strokePen, lengthMultiplier, angleModificator, steps, *points):
+    outerOutline = []
+    oncurveOutline = []
+    for i in range(steps):
+        t = i/(steps-1)
+        oncurve1, curvatureVis1 = getCurvatureVisLineForT(lengthMultiplier, angleModificator, t, *points)
+        oncurveOutline.append(oncurve1)
+        outerOutline.append(curvatureVis1)
 
-# #points = tuple(reversed(points))
-
-# size(1000,1000)
-# #translate(1000,1000)
-# fill(None)
-# stroke(0,1,0)
-# #drawBezier(*d)
-# stroke(0)
-# strokeWidth(0.5)
-
-# drawBezier(*points)
-# d = calcDeriverate(*points)
-# #with savedState():
-# #    stroke(1,0,0)
-# #    drawBezier(*d)
-
-# steps = 200
-# color1 = (1,0,0,1)
-# color1 = (.1,.1,.5,.2)
-# color2 = (.1,.1,.5,.2)
-
-# color1 = (1,0,0,.5)
-# color2 = (1,1,1,1)
-# left = []
-# right = []
-
-# lengthMultiplier = 20000
-
-# for i in range(steps):
-#     nextIdx = i + 1
-    
-#     t = i/(steps-1)
-    
-#     angleModificator1 = -math.pi/2
-#     oncurve1, curvatureVis1 = getCurvatureVisLineForT(lengthMultiplier, angleModificator1, t, *points)
-#     left.append(curvatureVis1)
-    
-#     angleModificator2 = math.pi/2
-#     oncurve2, curvatureVis2 = getCurvatureVisLineForT(lengthMultiplier, angleModificator2, t, *points)
-#     right.append(curvatureVis2)
-    
-#     if nextIdx < steps:
-#         next_t = nextIdx/(steps-1)
-#         next_oncurve1, next_curvatureVis1 = getCurvatureVisLineForT(lengthMultiplier, angleModificator1, next_t, *points)
-#         next_oncurve2, next_curvatureVis2 = getCurvatureVisLineForT(lengthMultiplier, angleModificator2, next_t, *points)
-        
-#     stroke(None)
-#     fill(*interpolateTwoSetsOfValues(t, color1, color2))
-#     polygon(oncurve1, curvatureVis1, next_curvatureVis1, next_oncurve1)
-    
-#     fill(*interpolateTwoSetsOfValues(t, color2, color1))
-#     polygon(oncurve2, curvatureVis2, next_curvatureVis2, next_oncurve2)
-    
-
-    
-    
-    
-# fill(None)
-
-# stroke(0)
-# strokeWidth(0.2)
-# stroke(*color1[:-1])
-# polygon(*left, close=False)
-# stroke(*color1[:-1])
-# polygon(*right, close=False)
-# stroke(0)
-# fill(1)
+    polygon(outerOutline, strokePen, closed=False)
+    polygon(outerOutline+list(reversed(oncurveOutline)), fillPen, closed=True)
+    # return fillPen, strokePen
 
 
-# line(*points[:2])
-
-# line(*points[-2:])
-
-# stroke(0)
-# for p in list(points) + [(0,0)]:
-#     dp(p,5)
+def polygon(points, pen, closed=True):
+    pen.moveTo(points[0])
+    for p in points[1:]:
+        pen.lineTo(p)
+    if closed:
+        pen.closePath()
+    return pen
