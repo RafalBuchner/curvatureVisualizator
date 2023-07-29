@@ -2610,11 +2610,11 @@
     <key>com.typemytype.robofont.compileSettings.autohint</key>
     <true/>
     <key>com.typemytype.robofont.compileSettings.checkOutlines</key>
-    <false/>
+    <integer>1</integer>
     <key>com.typemytype.robofont.compileSettings.createDummyDSIG</key>
     <true/>
     <key>com.typemytype.robofont.compileSettings.decompose</key>
-    <false/>
+    <integer>1</integer>
     <key>com.typemytype.robofont.compileSettings.generateFormat</key>
     <integer>0</integer>
     <key>com.typemytype.robofont.compileSettings.releaseMode</key>
@@ -2630,7 +2630,7 @@
     <key>public.glyphOrder</key>
     <array>
       <string>a</string>
-      <string>b</string>
+      <string>o</string>
     </array>
     <key>public.postscriptNames</key>
     <dict>

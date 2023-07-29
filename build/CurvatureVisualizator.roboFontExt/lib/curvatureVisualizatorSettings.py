@@ -15,7 +15,7 @@ __defaults__ = {
     extensionKeyStub + "showOptionsButtonInGlyphWindow_CheckBox": True,
     extensionKeyStub + "zoomVisualisation_CheckBox": False,
     extensionKeyStub + "visualisationSize_SliderInt": dict(minValue=0,maxValue=8000,value=1600),
-    extensionKeyStub + "visualisationType_SegmentedButton_counterclockwise_clockwise_both": 2,
+    extensionKeyStub + "visualisationType_SegmentedButton_counterclockwise_clockwise_both": 0,
     extensionKeyStub + "fillColor_Color": (1,.8,0,.5),
     extensionKeyStub + "strokeColor_Color": (1,.8,0,.1),
 }
