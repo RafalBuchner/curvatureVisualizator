@@ -40,17 +40,4 @@
       <point x="282" y="130"/>
     </contour>
   </outline>
-  <lib>
-    <dict>
-      <key>com.rafalbuchner.StemPlow.StemPlowRuler</key>
-      <dict>
-        <key>anchor_t</key>
-        <integer>0</integer>
-        <key>contour_index</key>
-        <integer>0</integer>
-        <key>segment_index</key>
-        <integer>0</integer>
-      </dict>
-    </dict>
-  </lib>
 </glyph>

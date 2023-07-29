@@ -71,11 +71,11 @@
       <key>com.rafalbuchner.StemPlow.StemPlowRuler</key>
       <dict>
         <key>anchor_t</key>
-        <real>0.9998779296875</real>
+        <real>0.5001220703125</real>
         <key>contour_index</key>
         <integer>0</integer>
         <key>segment_index</key>
-        <integer>16</integer>
+        <integer>12</integer>
       </dict>
     </dict>
   </lib>
