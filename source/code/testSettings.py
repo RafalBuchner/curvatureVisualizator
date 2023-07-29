@@ -14,8 +14,8 @@ __defaults__ = {
     extensionKeyStub + "showOptionsButtonInGlyphWindow_CheckBox": True,
     extensionKeyStub + "zoomVisualisation_CheckBox": False,
     extensionKeyStub + "visualisationSize_Slider_int": dict(minValue=0,maxValue=8000,value=1600),
-    # extensionKeyStub + "fillColor_ColorWell": (1,.8,0,.5),
-    # extensionKeyStub + "strokeColor_ColorWell": (1,.8,0,.1),
+    extensionKeyStub + "fillColor_ColorWell": (1,.8,0,.5),
+    extensionKeyStub + "strokeColor_ColorWell": (1,.8,0,.1),
 }
 
 
@@ -67,6 +67,7 @@ class GridViewExample:
             if "_" not in keyEntry:
                 continue
 
+            value = None
             title = camelCaseToSpaced(key.split("_")[0]).lower()
             className = key.split("_")[1]
             ClassType = vui.__dict__[className]
@@ -81,9 +82,7 @@ class GridViewExample:
 
             elif className == "Slider":
                 sliderData = internalGetDefault(key)
-                print(sliderData)
                 kwargs = dict(maxValue=sliderData.get("maxValue",100),minValue=sliderData.get("minValue",0))
-                print(kwargs)
                 kwargs["callback"] = self.objCallback
                 value = internalGetDefault(key).get("value")
 
@@ -91,16 +90,20 @@ class GridViewExample:
                 value = internalGetDefault(key)
                 args  = ("auto", title)
                 title = " "
-            elif className == "Color":
+            elif className == "ColorWell":
+                print("COLOR")
                 color = internalGetDefault(key)
-                value = convertRGBA_to_NSColor(color)
+                color = convertRGBA_to_NSColor(color)
+                args = ("auto",)
+                kwargs = dict(callback=self.objCallback, color=color)
             else:
                 value = internalGetDefault(key)
 
-
+            print(args, kwargs)
             obj = ClassType(*args,**kwargs)
             obj._id = key
-            obj.set(value)
+            if value is not None:
+                obj.set(value)
             setattr(self, key, obj)
             i = dict(
                 title=title,
