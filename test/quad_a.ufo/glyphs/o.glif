@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="o" format="2">
+  <advance width="644"/>
+  <unicode hex="006F"/>
+  <outline>
+    <contour>
+      <point x="322" y="-10" type="qcurve" smooth="yes"/>
+      <point x="238" y="-10"/>
+      <point x="113" y="57"/>
+      <point x="43" y="174"/>
+      <point x="43" y="247" type="qcurve" smooth="yes"/>
+      <point x="43" y="281" type="line" smooth="yes"/>
+      <point x="43" y="354"/>
+      <point x="113" y="470"/>
+      <point x="238" y="537"/>
+      <point x="322" y="537" type="qcurve" smooth="yes"/>
+      <point x="406" y="537"/>
+      <point x="532" y="470"/>
+      <point x="601" y="354"/>
+      <point x="601" y="281" type="qcurve" smooth="yes"/>
+      <point x="601" y="247" type="line" smooth="yes"/>
+      <point x="601" y="174"/>
+      <point x="532" y="57"/>
+      <point x="406" y="-10"/>
+    </contour>
+    <contour>
+      <point x="322" y="130" type="qcurve" smooth="yes"/>
+      <point x="362" y="130"/>
+      <point x="403" y="193"/>
+      <point x="403" y="262" type="qcurve" smooth="yes"/>
+      <point x="403" y="266" type="line" smooth="yes"/>
+      <point x="403" y="335"/>
+      <point x="362" y="397"/>
+      <point x="322" y="397" type="qcurve" smooth="yes"/>
+      <point x="282" y="397"/>
+      <point x="241" y="334"/>
+      <point x="241" y="265" type="qcurve" smooth="yes"/>
+      <point x="241" y="261" type="line" smooth="yes"/>
+      <point x="241" y="192"/>
+      <point x="282" y="130"/>
+    </contour>
+  </outline>
+  <lib>
+    <dict>
+      <key>com.rafalbuchner.StemPlow.StemPlowRuler</key>
+      <dict>
+        <key>anchor_t</key>
+        <integer>0</integer>
+        <key>contour_index</key>
+        <integer>0</integer>
+        <key>segment_index</key>
+        <integer>0</integer>
+      </dict>
+    </dict>
+  </lib>
+</glyph>

@@ -6,12 +6,10 @@
     <integer>798</integer>
     <key>capHeight</key>
     <integer>718</integer>
-    <key>copyright</key>
-    <string>Copyright (c) 2022 Typotheque.com All rights reserved.</string>
     <key>descender</key>
     <integer>-202</integer>
     <key>familyName</key>
-    <string>Chairman Display L</string>
+    <string>COOLIO</string>
     <key>guidelines</key>
     <array>
       <dict>
@@ -22,9 +20,9 @@
         <key>name</key>
         <string>m</string>
         <key>x</key>
-        <integer>303</integer>
+        <integer>130</integer>
         <key>y</key>
-        <integer>221</integer>
+        <integer>174</integer>
       </dict>
       <dict>
         <key>angle</key>
@@ -37,38 +35,10 @@
         <integer>574</integer>
       </dict>
     </array>
-    <key>openTypeHeadCreated</key>
-    <string>2021/01/03 12:15:42</string>
     <key>openTypeHeadFlags</key>
     <array/>
-    <key>openTypeHheaAscender</key>
-    <integer>958</integer>
     <key>openTypeHheaCaretOffset</key>
     <integer>0</integer>
-    <key>openTypeHheaDescender</key>
-    <integer>-242</integer>
-    <key>openTypeHheaLineGap</key>
-    <integer>0</integer>
-    <key>openTypeNameCompatibleFullName</key>
-    <string>Chairman Display L Black</string>
-    <key>openTypeNameDescription</key>
-    <string>Chairman, Sans typeface for all purposes, both in display and text styles. Designed by Nikola Djurek.</string>
-    <key>openTypeNameDesigner</key>
-    <string>Nikola Djurek http://www.typotheque.com</string>
-    <key>openTypeNameDesignerURL</key>
-    <string>http://www.typotheque.com</string>
-    <key>openTypeNameLicense</key>
-    <string>The Typotheque Font Software is protected under domestic and international trademark and copyright law.</string>
-    <key>openTypeNameLicenseURL</key>
-    <string>http://www.typotheque.com</string>
-    <key>openTypeNameManufacturer</key>
-    <string>Nikola Djurek, Typotheque type foundry</string>
-    <key>openTypeNameManufacturerURL</key>
-    <string>http://www.typotheque.com</string>
-    <key>openTypeNamePreferredFamilyName</key>
-    <string>Chairman Display L</string>
-    <key>openTypeNamePreferredSubfamilyName</key>
-    <string>Black</string>
     <key>openTypeNameVersion</key>
     <string>1</string>
     <key>openTypeOS2CodePageRanges</key>
@@ -195,12 +165,8 @@
     </array>
     <key>postscriptFamilyOtherBlues</key>
     <array/>
-    <key>postscriptFontName</key>
-    <string>ChairmanDisplayL-Black</string>
     <key>postscriptForceBold</key>
     <false/>
-    <key>postscriptFullName</key>
-    <string>Chairman Display L Black</string>
     <key>postscriptIsFixedPitch</key>
     <false/>
     <key>postscriptOtherBlues</key>
@@ -212,20 +178,10 @@
     <array/>
     <key>postscriptStemSnapV</key>
     <array/>
-    <key>postscriptUnderlinePosition</key>
-    <integer>-100</integer>
-    <key>postscriptUnderlineThickness</key>
-    <integer>50</integer>
-    <key>postscriptWeightName</key>
-    <string>Black</string>
-    <key>styleMapFamilyName</key>
-    <string>Chairman Display L Black</string>
     <key>styleMapStyleName</key>
     <string>regular</string>
     <key>styleName</key>
     <string>Black</string>
-    <key>trademark</key>
-    <string>Chairman Sans is a trademark of Typotheque.com. All rights reserved.</string>
     <key>unitsPerEm</key>
     <integer>1000</integer>
     <key>versionMajor</key>
