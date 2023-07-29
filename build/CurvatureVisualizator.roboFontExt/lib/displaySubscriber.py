@@ -1,7 +1,7 @@
 from vanilla.vanillaBase import VanillaCallbackWrapper
 from mojo.subscriber import Subscriber
 from AppKit import NSMenuItem
-from settings import (
+from curvatureVisualizatorSettings import (
     internalGetDefault,
     internalSetDefault,
     extensionID
@@ -10,19 +10,15 @@ from settings import (
 def _getDisplayPopUpMenuFromEditWindow(editWindow):
     if editWindow is None:
         return
-    for subview in editWindow.getGlyphStatusBar().getNSView().subviews():
-        if hasattr(subview, "title"):
-            if subview.title() == "Display...":
-                return subview
+    return editWindow.getGlyphStatusBar().displayButton
 
 def _createCustomVisualizerSeparator(displayPopUp):
-    if len(displayPopUp.itemArray()) == 27:
-        menu = displayPopUp.menu()
+    if len(displayPopUp.getItems()) == 27:
+        menu = displayPopUp.getNSPopUpButton().menu()
         menu.addItem_(NSMenuItem.separatorItem())
 
-    elif displayPopUp.itemArray()[27].isSeparatorItem():
-        menu = displayPopUp.menu()
-        menu.addItem_(NSMenuItem.separatorItem())
+    elif displayPopUp.getNSPopUpButton().itemArray()[27].isSeparatorItem():
+        return
 
 # =========================================
 #  S U B S C R I B E R (with basic events)
@@ -77,7 +73,7 @@ class DisplaySuscriber(Subscriber):
         self._menuItemCallbackWrappers.append(wrapper)
         self._menuItem.setTarget_(wrapper)
         self._menuItem.setAction_("action:")
-        menu = displayPopUp.menu()
+        menu = displayPopUp.getNSPopUpButton().menu()
         menu.addItem_(self._menuItem)
 
     def toggleOff(self):

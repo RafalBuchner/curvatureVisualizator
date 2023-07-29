@@ -82,11 +82,11 @@ B.requiresVersionMinor = '2'
 
 # scripts which should appear in Extensions menu
 B.addToMenu = [
-    {
-        'path' : 'settings.py',
-        'preferredName': 'Curvature Visualizator Settings',
-        'shortKey' : '',
-    },
+    # {
+    #     'path' : 'curvatureVisualizatorSettings.py',
+    #     'preferredName': 'Curvature Visualizator Settings',
+    #     'shortKey' : '',
+    # },
     # {
     #     'path' : 'doSomethingElse.py',
     #     'preferredName': 'do something else',

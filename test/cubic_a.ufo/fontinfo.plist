@@ -11,7 +11,7 @@
     <key>descender</key>
     <integer>-202</integer>
     <key>familyName</key>
-    <string>Chairman Display L</string>
+    <string>COOLIO</string>
     <key>guidelines</key>
     <array>
       <dict>
@@ -22,9 +22,9 @@
         <key>name</key>
         <string>m</string>
         <key>x</key>
-        <integer>303</integer>
+        <integer>130</integer>
         <key>y</key>
-        <integer>221</integer>
+        <integer>174</integer>
       </dict>
       <dict>
         <key>angle</key>

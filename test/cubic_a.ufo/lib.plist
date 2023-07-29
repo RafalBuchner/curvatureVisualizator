@@ -2619,8 +2619,6 @@
     <integer>0</integer>
     <key>com.typemytype.robofont.compileSettings.releaseMode</key>
     <false/>
-    <key>com.typemytype.robofont.generateFeaturesWithFontTools</key>
-    <false/>
     <key>com.typemytype.robofont.guideline.showMeasurements.2AhB1fEA3Z</key>
     <true/>
     <key>com.typemytype.robofont.italicSlantOffset</key>
@@ -2632,6 +2630,7 @@
     <key>public.glyphOrder</key>
     <array>
       <string>a</string>
+      <string>b</string>
     </array>
     <key>public.postscriptNames</key>
     <dict>
@@ -3074,7 +3073,5 @@
       <key>zerowidthspace</key>
       <string>uni200B</string>
     </dict>
-    <key>public.skipExportGlyphs</key>
-    <array/>
   </dict>
 </plist>

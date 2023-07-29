@@ -3,16 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>addToMenu</key>
-	<array>
-		<dict>
-			<key>path</key>
-			<string>settings.py</string>
-			<key>preferredName</key>
-			<string>Curvature Visualizator Settings</string>
-			<key>shortKey</key>
-			<string></string>
-		</dict>
-	</array>
+	<array/>
 	<key>developer</key>
 	<string>Rafał buchner</string>
 	<key>developerURL</key>
@@ -30,7 +21,7 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1690392658.0328929</real>
+	<real>1690585664.895401</real>
 	<key>version</key>
 	<string>0.5.0</string>
 </dict>

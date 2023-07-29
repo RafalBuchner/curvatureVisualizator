@@ -230,8 +230,12 @@ class CurvaturePen(AbstractPen):
         self.strokeWidth = strokeWidth
         self.setParentLayer(parentLayer)
         self.setColorPalette(colorPalette)
-        self.fillPen, self.strokePen = MerzPen(), MerzPen()
+        # self.fillPen, self.strokePen = MerzPen(), MerzPen()
         self.drawingMethod = drawCurvatureVisForCurve_merz
+        self.resetMerzPens()
+
+    def resetMerzPens(self):
+        self.fillPen, self.strokePen = MerzPen(), MerzPen()
 
     def setLengthMultiplier(self, lengthMultiplier):
         self.lengthMultiplier = lengthMultiplier
@@ -296,9 +300,9 @@ class CurvaturePen(AbstractPen):
         for seg in segs:
             a, b, c = seg
             if self.clockwise:
-                self.drawingMethod(self.fillPen, self.strokePen, self.lengthMultiplier, math.pi/2, self.steps, a, b, c)
-            if self.counterclockwise:
                 self.drawingMethod(self.fillPen, self.strokePen, self.lengthMultiplier, -math.pi/2, self.steps, a, b, c)
+            if self.counterclockwise:
+                self.drawingMethod(self.fillPen, self.strokePen, self.lengthMultiplier, math.pi/2, self.steps, a, b, c)
 
         self.lastPoint = points[-1]
 
@@ -317,6 +321,8 @@ class CurvaturePen(AbstractPen):
         self.setFillStrokeLayers()
         self.fillLayer.setPath(self.fillPen.path)
         self.strokeLayer.setPath(self.strokePen.path)
+
+
 
 #
 # =============================================================================================
