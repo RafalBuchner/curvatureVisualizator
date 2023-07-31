@@ -1,3 +1,6 @@
+from curvatureGlyph_merz import CurvaturePen
+import vanilla as vui
+from AppKit import NSRoundRectBezelStyle
 from fontTools.pens.transformPen import TransformPointPen, TransformPen
 from fontTools.misc.transform import Transform
 from displaySubscriber import DisplaySuscriber
@@ -9,9 +12,6 @@ from curvatureVisualizatorSettings import (
     extensionKeyStub,
     extensionID
 )
-from curvatureGlyph_merz import CurvaturePen
-import vanilla as vui
-from AppKit import NSRoundRectBezelStyle
 
 
 # ====================================
@@ -56,13 +56,13 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         )
 
     def loadDefaults(self):
-        self.steps = internalGetDefault("divisionSteps_int")
-        self.colorPalette = (internalGetDefault("fillColor_Color"), internalGetDefault("strokeColor_Color"))
-        self.strokeWidth = internalGetDefault("strokeWidth_int")
+        self.steps = internalGetDefault("divisionSteps_EditText_int")
+        self.colorPalette = (internalGetDefault("fillColor_ColorWell"), internalGetDefault("strokeColor_ColorWell"))
+        self.strokeWidth = internalGetDefault("strokeWidth_EditText_int")
         self.showOptionsButtonInGlyphWindow = internalGetDefault("showOptionsButtonInGlyphWindow_CheckBox")
         self.showMe = internalGetDefault("isVisible")
         self.zoomVisualisation = internalGetDefault("zoomVisualisation_CheckBox")
-        self.absoluteVisualisationSize = internalGetDefault("visualisationSize_SliderInt")["value"]
+        self.absoluteVisualisationSize = internalGetDefault("visualisationSize_Slider_int")["value"]
         visualisationType = internalGetDefault("visualisationType_SegmentedButton_counterclockwise_clockwise_both")
 #         print(
 # f"""
@@ -122,8 +122,8 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             self.pop.visualisationSizeText = vui.TextBox((10, y, -10, 20), 'visualisation size')
 
             y += 22+10
-            sliderDefaults =internalGetDefault("visualisationSize_SliderInt")
-            self.pop.visualisationSize_SliderInt = vui.Slider(
+            sliderDefaults =internalGetDefault("visualisationSize_Slider_int")
+            self.pop.visualisationSize_Slider_int = vui.Slider(
                 (10, y, -10, 20),
                 minValue=sliderDefaults.get("minValue"),
                 maxValue=sliderDefaults.get("maxValue"),
@@ -147,7 +147,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
                         "zoom visualisation",value=internalGetDefault("zoomVisualisation_CheckBox"),
                         callback=self.settingsCallback)
 
-            self.pop.visualisationSize_SliderInt._id = "visualisationSize_SliderInt"
+            self.pop.visualisationSize_Slider_int._id = "visualisationSize_Slider_int"
             self.pop.visualisationType_SegmentedButton_counterclockwise_clockwise_both._id = "visualisationType_SegmentedButton_counterclockwise_clockwise_both"
             self.pop.zoomVisualisation_CheckBox._id = "zoomVisualisation_CheckBox"
             self.pop.open(parentView=sender.getNSButton(), preferredEdge='top')
@@ -161,7 +161,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             if "_SliderInt" in sender._id:
                 value = int(value)
 
-            sliderDefaults =internalGetDefault("visualisationSize_SliderInt")
+            sliderDefaults =internalGetDefault("visualisationSize_Slider_int")
             value = dict(minValue=sliderDefaults.get("minValue"), maxValue=sliderDefaults.get("maxValue"), value=value)
             internalSetDefault(sender._id, value)
 
@@ -181,7 +181,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
 
     def extensionDefaultsChanged(self, event):
         self.loadDefaults()
-
+        self.showCurvatureOptions()
         self.pen = CurvaturePen(steps=self.steps, lengthMultiplier=self.visualisationSize, clockwise=self.clockwise, counterclockwise=self.counterclockwise, colorPalette=self.colorPalette, strokeWidth=self.strokeWidth, parentLayer=self.bgBaseLayer)
         self.drawPath(dict(glyph=self.getGlyphEditor().getGlyph().asFontParts()))
 

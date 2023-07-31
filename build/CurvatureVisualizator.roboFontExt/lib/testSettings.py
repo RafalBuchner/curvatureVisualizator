@@ -63,6 +63,9 @@ class ExtensionSettingsView:
     # 30 * len(__default__)
     def __init__(self, defaults=None, extensionName=None):
         contents = self.buildSettingItems(__defaults__)
+        self.w = vui.Window((500, 200), minSize=(500,200))
+        
+        
         self.gridView = vui.GridView(
             (10, 10, -10, -10),
             contents=contents,
@@ -86,34 +89,11 @@ class ExtensionSettingsView:
 
         )
         descriptions = [
-            dict(
-                    label=camelCaseToSpaced(extensionName),
-                    view=self.gridView, size=30 * len(defaults),
-                    collapsed=True,
-                    canResize=False
-                )
+            dict(label=camelCaseToSpaced(extensionName), view=self.gridView, size=30 * len(defaults), collapsed=True, canResize=False)
             ]
-        self.w = vui.Window((500, 200), minSize=(500,200))
-        searchWidth = 200
-        self.w.title = vui.TextBox((10, 10, 180, 22), "Extension's Settings")
-        self.w.searchBox = vui.SearchBox((-190, 10, 180, 22),
-                                callback=self.searchBoxCallback)
-        self.w.box = vui.Box((10,42,-10,-10))
+        self.w.box = vui.Box((10,10,-10,-10))
         self.w.box.accordion = AccordionView((0, 0, -0, -0), descriptions)
         self.w.open()
-
-    def searchBoxCallback(self, sender):
-        searchEntries = sender.get().lower().split(" ")
-        searchedList = ["Curve Extension", "Stem Plow", "Laser Measure"]
-        def lookForMatchingEntry(str_entry):
-            for entry in searchEntries:
-                if entry not in str_entry.lower():
-                    return False
-            return True
-        searchResult = filter(lookForMatchingEntry, searchedList)
-
-        print(list(searchResult))
-
 
     def buildSettingItems(self, __defaults__):
         items = []
