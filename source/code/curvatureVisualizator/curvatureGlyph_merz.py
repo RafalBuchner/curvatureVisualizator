@@ -1,6 +1,6 @@
 from merz import MerzPen
 from fontTools.pens.basePen import AbstractPen
-from deriverateLib import interpolateTwoSetsOfValues, getCurvatureVisLineForT, drawCurvatureVisForCurve_merz
+from curvatureVisualizator.deriverateLib import interpolateTwoSetsOfValues, getCurvatureVisLineForT, drawCurvatureVisForCurve_merz
 import math, pprint
 
 

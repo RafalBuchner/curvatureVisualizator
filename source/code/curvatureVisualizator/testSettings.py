@@ -55,15 +55,15 @@ def convertNSColor_to_RGBA(color):
     a = color.alphaComponent()
     return (r, g, b, a)
 
-
-# internalSetDefault("visualisationSize_Slider_int", dict(minValue=0,maxValue=8000,value=1600))
-
-
 class ExtensionSettingsView:
     # 30 * len(__default__)
     def __init__(self, defaults=None, extensionName=None):
+        self.w = vui.Window((500, 200), minSize=(500,200))
+        searchWidth = 200
+        self.w.title = vui.TextBox((10, 10, 180, 22), f"{camelCaseToSpaced(extensionName)} Settings")
+        self.w.box = vui.Box((10,42,-10,-10))
         contents = self.buildSettingItems(__defaults__)
-        self.gridView = vui.GridView(
+        self.w.box.gridView = vui.GridView(
             (10, 10, -10, -10),
             contents=contents,
             rowSpacing=10,
@@ -85,34 +85,7 @@ class ExtensionSettingsView:
             columnPlacement="leading",
 
         )
-        descriptions = [
-            dict(
-                    label=camelCaseToSpaced(extensionName),
-                    view=self.gridView, size=30 * len(defaults),
-                    collapsed=True,
-                    canResize=False
-                )
-            ]
-        self.w = vui.Window((500, 200), minSize=(500,200))
-        searchWidth = 200
-        self.w.title = vui.TextBox((10, 10, 180, 22), "Extension's Settings")
-        self.w.searchBox = vui.SearchBox((-190, 10, 180, 22),
-                                callback=self.searchBoxCallback)
-        self.w.box = vui.Box((10,42,-10,-10))
-        self.w.box.accordion = AccordionView((0, 0, -0, -0), descriptions)
         self.w.open()
-
-    def searchBoxCallback(self, sender):
-        searchEntries = sender.get().lower().split(" ")
-        searchedList = ["Curve Extension", "Stem Plow", "Laser Measure"]
-        def lookForMatchingEntry(str_entry):
-            for entry in searchEntries:
-                if entry not in str_entry.lower():
-                    return False
-            return True
-        searchResult = filter(lookForMatchingEntry, searchedList)
-
-        print(list(searchResult))
 
 
     def buildSettingItems(self, __defaults__):
@@ -207,15 +180,13 @@ class ExtensionSettingsView:
                     maxValue=obj.maxValue()
                 )
 
-        print(">>",key, value)
         if assingValue:
 
             internalSetDefault(key, value)
             events.postEvent(extensionID + ".defaultsChanged")
-            print("assigned")
 
 
-if "RoboFont" in sys.executable:
+try:
     ExtensionSettingsView(__defaults__, extensionName)
 
 if __name__ == "__main__" and "RoboFont" not in sys.executable:

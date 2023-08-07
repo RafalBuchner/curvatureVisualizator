@@ -13,7 +13,7 @@
 	<key>launchAtStartUp</key>
 	<true/>
 	<key>mainScript</key>
-	<string>curvatureVisualizatorSubscriber.py</string>
+	<string>main.py</string>
 	<key>name</key>
 	<string>CurvatureVisualizator</string>
 	<key>requiresVersionMajor</key>
@@ -21,8 +21,8 @@
 	<key>requiresVersionMinor</key>
 	<string>2</string>
 	<key>timeStamp</key>
-	<real>1690753575.9448919</real>
+	<real>1691355930.3126409</real>
 	<key>version</key>
-	<string>0.5.0</string>
+	<string>0.5.2</string>
 </dict>
 </plist>

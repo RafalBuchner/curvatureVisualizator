@@ -1,9 +1,9 @@
-'''build RoboFont Extension'''
+'''build RoboFont CurvatureVisualizator Extension'''
 
 import os
 from mojo.extensions import ExtensionBundle
 
-__version__ = "0.5.0"
+__version__ = "0.5.2"
 
 def exec_cmd(cmd):
     import subprocess
@@ -31,8 +31,7 @@ libPath = os.path.join(sourcePath, 'code')
 htmlPath = None
 
 # # folder with resources (icons etc)
-# resourcesPath = os.path.join(sourcePath, 'resources')
-resourcesPath = None
+resourcesPath = os.path.join(sourcePath, 'resources')
 
 # load license text from file
 # see choosealicense.com for more open-source licenses
@@ -71,7 +70,7 @@ B.version = __version__
 B.launchAtStartUp = True
 
 # script to be executed when RF starts
-B.mainScript = 'curvatureVisualizatorSubscriber.py'
+B.mainScript = 'main.py'
 
 # does the extension contain html help files?
 B.html = False
