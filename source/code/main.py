@@ -1,52 +1,80 @@
-from mojo.extensions import registerExtensionDefaults
+from mojo.extensions import registerExtensionDefaults, ExtensionBundle
 from curvatureVisualizator.curvatureVisualizatorSubscriber import CurvatureVisualizatorSubscriber
-from mojo import subscriber
-from mojo.extensions import ExtensionBundle
+from curvatureVisualizator.curvatureVisualizatorSettings import ExtensionSettingsWindow, extensionName, camelCaseToSpaced
+from mojo.tools import CallbackWrapper
+from mojo import subscriber, events
 from collections import OrderedDict
-import yaml, pprint
+import yaml, pprint, AppKit
 
-def getDefaultsFromYaml():
-    bundle = ExtensionBundle("CurvatureVisualizator")
-    settings_file = bundle.getResourceFilePath("defaults",ext='yaml')
-    with open(settings_file, 'r', encoding="utf-8") as stream:
-        settings_dictionary = yaml_load_ordered(stream)
+## https://stackoverflow.com/questions/7367438/sort-nsmenuitems-alphabetically-and-by-whether-they-have-submenus-or-not
+def sortMenu(menu):
+    itemArray = menu.itemArray().copy()
+    menu.removeAllItems()
 
-        extensionName = settings_dictionary["extensionName"]
-        extensionID = settings_dictionary["developerID"] + "." + extensionName
-        extensionKeyStub = extensionID + "."
+    # create a descriptor that will sort files alphabetically
+    alphaDescriptor = AppKit.NSSortDescriptor.alloc().initWithKey_ascending_("title", True)
+    itemArray = itemArray.sortedArrayUsingDescriptors_([alphaDescriptor])
 
-        __defaults__ = {}
-        for default_name, default_dict in settings_dictionary["__defaults__"].items():
-            vanillaObj = default_dict["vanillaObj"]
-            value = default_dict["value"]
+    # create a descriptor that will sort files alphabetically and based on existance of submenus
+    # submenuDescriptor = AppKit.NSSortDescriptor.alloc().initWithKey_ascending_("hasSubmenu", False)
+    # itemArray = itemArray.sortedArrayUsingDescriptors_([submenuDescriptor,alphaDescriptor])
+    for item in itemArray:
+        menu.addItem_(item)
 
-            attributes = ""
-            if "attributes" in default_dict.keys():
-                attributes = "_"+"_".join( default_dict["attributes"] )
+        # The following code fixes NSPopUpButton's confusion that occurs when
+        # we sort this list. NSPopUpButton listens to the NSMenu's add notifications
+        # and hides the first item. Sorting this blows it up.
+        if item.isHidden():
+            item.setHidden_(False)
 
-            default_key = f"exst_{default_name}_{vanillaObj}{attributes}"
-            __defaults__[extensionKeyStub+default_key] = value
-        return __defaults__, extensionName, extensionID, extensionKeyStub
-    return None, None, None, None
+        # While we're looping, if there's a submenu, go ahead and sort that, too.
+        if item.hasSubmenu():
+            sortMenu(item.submenu())
 
-def yaml_load_ordered(yaml_data):
-    """
-    Load yaml data to ordered dictionary
-    """
-    class OrderedLoader(yaml.SafeLoader):
-        pass
+class ExtensionSettings:
+    def __init__(self):
+        # self.window = ExtensionSettingsWindow()
+        events.addObserver(self, "waitForActive", "applicationDidFinishLaunching")
 
-    def construct_mapping(loader, node):
-        loader.flatten_mapping(node)
-        return OrderedDict(loader.construct_pairs(node))
+    def waitForActive(self, info):
+        events.addObserver(self, "addMenuItem", "applicationDidBecomeActive")
 
-    OrderedLoader.add_constructor(
-        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        construct_mapping)
+    def addMenuItem(self, info):
+        events.removeObserver(self, "applicationDidBecomeActive")
+        events.removeObserver(self, "applicationDidFinishLaunching")
 
-    return yaml.load(yaml_data, OrderedLoader)
+        menubar = AppKit.NSApp().mainMenu()
 
-__defaults__, _,_,_ = getDefaultsFromYaml()
-pprint.pprint(__defaults__)
-registerExtensionDefaults(__defaults__)
+        title = camelCaseToSpaced(extensionName)
+
+        extensionsItem = menubar.itemWithTitle_("Extensions")
+        extensionsMenu = extensionsItem.submenu()
+        mySubMenuItem = extensionsMenu.itemWithTitle_(title)
+
+        if not mySubMenuItem:
+            # If it doesn't exist, create a new NSMenuItem with the title "Copy Version Info..." and add it to the menu below the About item
+            #help(AppKit.NSMenuItem)
+            mySubMenu = AppKit.NSMenu.alloc().init()
+            mySubMenuItem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(title, "", "")
+            mySubMenuItem.setSubmenu_(mySubMenu)
+
+            # create settings NSMenuItem
+            self.extensionSettingsInfoTarget = CallbackWrapper(self.extensionSettingsInfoCallback)
+            extensionSettingsMenuItem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
+                title+" Settings",
+                "action:",
+                ""
+            )
+            extensionSettingsMenuItem.setTarget_(self.extensionSettingsInfoTarget)
+            mySubMenu.insertItem_atIndex_(extensionSettingsMenuItem, 0)
+
+            extensionsMenu.insertItem_atIndex_(mySubMenuItem, 0)
+            sortMenu(extensionsMenu)
+
+
+
+    def extensionSettingsInfoCallback(self, sender):
+        ExtensionSettingsWindow()
+
+ExtensionSettings()
 subscriber.registerGlyphEditorSubscriber(CurvatureVisualizatorSubscriber)

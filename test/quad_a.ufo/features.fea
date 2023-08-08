@@ -1,2 +1,0 @@
-include(../Features/ChairmanDisplay.fea);
-include(../Kerning/ChairmanDisplayL-Black.fea);

@@ -7,14 +7,13 @@ from curvatureVisualizator.displaySubscriber import DisplaySuscriber
 from mojo import subscriber, events
 from merz import MerzPen
 from curvatureVisualizator.curvatureVisualizatorSettings import (
-    internalRegisterDefaults,
     internalGetDefault,
     internalSetDefault,
     extensionKeyStub,
     extensionID
 )
 
-internalRegisterDefaults()
+
 
 __DEBUG__ = True
 # ====================================

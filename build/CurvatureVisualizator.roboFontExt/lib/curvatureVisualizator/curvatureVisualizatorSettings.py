@@ -4,8 +4,7 @@ import AppKit, pprint
 import sys
 import yaml
 import ezui
-from mojo.UI import AccordionView
-from mojo import events
+from mojo.events import postEvent
 from mojo.extensions import (
     registerExtensionDefaults,
     getExtensionDefault,
@@ -60,16 +59,6 @@ __defaults__, extensionName, extensionID, extensionKeyStub = getDefaultsFromYaml
 displayMenuDefault = {extensionKeyStub+"isVisible":False}
 __defaults__.update(displayMenuDefault)
 
-
-
-# def internalRegisterDefaults():
-#     if __DEBUG__:
-#         print(f"internalRegisterDefaults initialised defaults:")
-#         pprint.pprint(__defaults__)
-#     registerExtensionDefaults(__defaults__)
-
-# internalRegisterDefaults()
-
 def internalGetDefault(key):
     key = extensionKeyStub + key
     return getExtensionDefault(key)
@@ -79,22 +68,7 @@ def internalSetDefault(key, value):
     setExtensionDefault(key, value)
 
 def camelCaseToSpaced(txt):
-    return ''.join(map(lambda x: x if x.islower() else " "+x, txt))
-
-def convertRGBA_to_NSColor(color):
-    if isinstance(color, AppKit.NSColor):
-        return color
-    return AppKit.NSColor.colorWithCalibratedRed_green_blue_alpha_(*color)
-
-def convertNSColor_to_RGBA(color):
-    color = color.colorUsingColorSpace_(AppKit.NSColorSpace.genericRGBColorSpace())
-    r = color.redComponent()
-    g = color.greenComponent()
-    b = color.blueComponent()
-    a = color.alphaComponent()
-    return (r, g, b, a)
-
-
+    return ''.join(map(lambda x: x if x.islower() else " "+x, txt)).strip()
 
 def registerDefaultsToExtensionsSettings(your_extension_ID, defaultsDict):
     registerExtensionDefaults(defaultsDict)
@@ -115,105 +89,141 @@ registerExtensionDefaults(__defaults__)
 
 
 class ExtensionSettingsWindow:
-    def __init__(self, __defaults__) -> None:
-        self._defaults = __defaults__
+    _defaults = __defaults__
+    def __init__(self):
 
+        content, descriptionData= self.buildContnentAndDescription()
 
-        content = """
-        = TwoColumnForm
-
-        : Visualisation Type:
-        (counterclockwise | clockwise | both)                  @exst_visualisationType_SegmentedButton_counterclockwise_clockwise_both
-        
-        : Division Steps:
-
-        [_123_](±)                       @exst_divisionSteps_EditText_int
-
-        : Stroke Width:
-
-        [_123_](±)                                  @exst_strokeWidth_EditText_int
-
-        [ ] Text Size                               @exst_showOptionsButtonInGlyphWindow_CheckBox
-
-        [ ] Zoom Visualisation                      @exst_zoomVisualisation_CheckBox
-
-        : Oval Size:
-        ---X---                                  @exst_visualisationSize_Slider
-
-        : Line Size:
-        * ColorWell                                 @exst_fillColor_ColorWell
-
-        : Base Color:
-        * ColorWell                                 @exst_strokeColor_ColorWell
-
-
-        """
-        colorWellWidth = 100
-        colorWellHeight = 20
-        numberEntryWidth = 75
-        descriptionData = dict(
-            content=dict(
-                titleColumnWidth=125,
-                itemColumnWidth=265
-            ),
-            exst_visualisationType_SegmentedButton_counterclockwise_clockwise_both=dict(
-                selected=internalGetDefault("exst_visualisationType_SegmentedButton_counterclockwise_clockwise_both")
-            ),
-            exst_divisionSteps_EditText_int=dict(
-                width=numberEntryWidth,
-                valueType="number",
-                value=internalGetDefault("exst_divisionSteps_EditText_int")
-            ),
-            exst_strokeWidth_EditText_int=dict(
-                width=numberEntryWidth,
-                valueType="number",
-                value=internalGetDefault("exst_strokeWidth_EditText_int")
-            ),
-            exst_showOptionsButtonInGlyphWindow_CheckBox=dict(
-                value=internalGetDefault("exst_showOptionsButtonInGlyphWindow_CheckBox")
-            ),
-            exst_zoomVisualisation_CheckBox=dict(
-                value=internalGetDefault("exst_zoomVisualisation_CheckBox")
-            ),
-            exst_visualisationSize_Slider=dict(
-                continuous=False,
-                minValue=internalGetDefault("exst_visualisationSize_Slider")["minValue"],
-                maxValue=internalGetDefault("exst_visualisationSize_Slider")["maxValue"],
-                value=internalGetDefault("exst_visualisationSize_Slider")["value"]
-            ),
-            exst_fillColor_ColorWell=dict(
-                width=colorWellWidth,
-                height=colorWellHeight,
-                color=tuple(internalGetDefault("exst_fillColor_ColorWell"))
-            ),
-            exst_strokeColor_ColorWell=dict(
-                width=colorWellWidth,
-                height=colorWellHeight,
-                color=tuple(internalGetDefault("exst_strokeColor_ColorWell"))
-            ),
-        )
         self.w = ezui.EZWindow(
-            title="Stem Plow Settings",
+            title=f"{camelCaseToSpaced(extensionName)} Settings",
             content=content,
             descriptionData=descriptionData,
             controller=self
         )
         self.w.open()
 
-    # def started(self):
-    #     self.w.open()
+    def buildContnentAndDescription(self):
+        colorWellWidth = 100
+        colorWellHeight = 20
+        numberEntryWidth = 75
+
+        descriptionData = dict(
+            content=dict(
+                titleColumnWidth=125,
+                itemColumnWidth=265
+            )
+        )
+        content = "= TwoColumnForm\n\n"
+
+        for keyEntry in self._defaults:
+            key = keyEntry.split(".")[-1]
+            if "_" not in key:
+                continue
+            keyElements = key.split("_")[1:]
+            title = camelCaseToSpaced(keyElements[0]).title()
+            vanillaObjName = keyElements[1]
+            args = keyElements[2:]
+            #print(f"t:{title} vo:{vanillaObjName} args:{args} key:{key}")
+            txt = "---"
+            if vanillaObjName == "CheckBox":
+                txt = f"[ ] {title.lower()}                        @{key}"
+                _descriptionData = {
+                    key:dict(
+                        value=internalGetDefault(key)
+                    )
+                }
+
+            elif vanillaObjName == "Slider":
+                txt = f": {title}:\n---X---                        @{key}"
+                _descriptionData = {
+                    key:dict(
+                        continuous=False,
+                        minValue=internalGetDefault(key)["minValue"],
+                        maxValue=internalGetDefault(key)["maxValue"],
+                        value=internalGetDefault(key)["value"]
+                    )
+                }
+
+            elif vanillaObjName == "ColorWell":
+                txt = f": {title}:\n* ColorWell                        @{key}"
+                _descriptionData = {
+                    key:dict(
+                        width=colorWellWidth,
+                        height=colorWellHeight,
+                        color=tuple(internalGetDefault(key))
+                    )
+                }
+
+            elif vanillaObjName == "EditText":
+                txt = f": {title}:\n[__]                        @{key}"
+                _descriptionData = {
+                    key:dict(
+                        valueType="string",
+                        value=internalGetDefault(key)
+                    )
+                }
+
+                if "int" in args:
+                    txt = f": {title}:\n[_123_](±)                        @{key}"
+                    _descriptionData = {
+                        key:dict(
+                            width=numberEntryWidth,
+                            valueType="number",
+                            value=internalGetDefault(key)
+                        )
+                    }
+
+            elif vanillaObjName == "SegmentedButton":
+                txt = f": {title}:\n({' | '.join(args)})                       @{key}"
+                _descriptionData = {
+                    key:dict(
+                        selected=internalGetDefault(key)
+                    )
+                }
+
+            txt += "\n\n"
+            content += txt
+            descriptionData.update(_descriptionData)
+        # print("="*100)
+        # print('"""')
+        # print(content)
+        # print('"""')
+        # pprint.pprint(descriptionData)
+        ezui.knownItemTypes()
+
+
+
+
+        return content, descriptionData
 
     def contentCallback(self, sender):
         for key, value in sender.getItemValues().items():
-            print(key, value)
-        #     existing = internalGetDefault(key)
-        #     print(key, value, existing)
-        #     if existing == value:
-        #         continue
-        #     internalSetDefault(key, value)
-        # postEvent(
-        #     extensionID + ".defaultsChanged"
-        # )
+            if "_Slider" in key :
+                item = sender.getItem(key)
+                minValue = item.getNSSlider().minValue()
+                maxValue = item.getNSSlider().maxValue()
+                _value = dict(
+                    minValue=minValue,
+                    value=value,
+                    maxValue=maxValue,
+                )
+                if "_int" in key :
+                        _value = dict(
+                        minValue=minValue,
+                        value=int(value),
+                        maxValue=maxValue,
+                    )
+                value = _value
+            elif "_int" in key :
+                value = int(value)
+
+            existing = internalGetDefault(key)
+            if existing == value:
+                continue
+            internalSetDefault(key, value)
+        postEvent(
+            extensionID + ".defaultsChanged"
+        )
 
 
 
@@ -223,7 +233,7 @@ The settings window is only available in
 RoboFont 4.2+
 """.strip()
 
-def StemPlowSettingsWindowController(*args, **kwargs):
+def ExtensionSettingsWindowController(*args, **kwargs):
     from mojo import roboFont
 
     version = roboFont.version
@@ -236,9 +246,11 @@ def StemPlowSettingsWindowController(*args, **kwargs):
     if versionMajor == 4 and versionMinor < 2:
         print(note)
     else:
-        _StemPlowSettingsWindowController(*args, **kwargs)
+        _ExtensionwSettingsWindowController(*args, **kwargs)
 
-ExtensionSettingsWindow(__defaults__)
+# from mojo.UI import OutputWindow
+# OutputWindow().clear()
+# ExtensionSettingsWindow()
 # if __name__ == "__main__" and "RoboFont" not in sys.executable:
 #     from vanilla.test.testTools import executeVanillaTest
 #     executeVanillaTest(ExtensionSettingsWindow, **dict(defaults=__defaults__))
