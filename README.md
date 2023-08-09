@@ -14,7 +14,7 @@ Basically, it adds a checkbox button to the `Display…` menu of the Glyph Edit 
 
 All you need to do is activate it.
 
-Additional options you will find in the `options` button that will appear in the bottom-right part of the Glyph Edit Window.
+You can access more options by clicking on the `options` button located in the bottom-right corner of the Glyph Edit Window.
 
 `Visualisation Size` controls how big the curvature representation is going to be.
 
@@ -22,7 +22,7 @@ Additional options you will find in the `options` button that will appear in the
 
 `Zoom visualisation` is a cool feature which will scale the whole curvature representation together with the zoom factor of your Glyph Edit Window.
 
-More settings you will find in the `Extensions` > `Curvature Visualizator` > `Curvature Visualizator Settings` menu.
+To access additional settings, navigate to the `Curvature Visualizator Settings` menu button under `Extensions` > `Curvature Visualizator`.
 
 
 
