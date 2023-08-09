@@ -41,14 +41,15 @@ class DisplaySuscriber(Subscriber):
 
     @showMe.setter
     def showMe(self, value):
+
+        internalSetDefault("isVisible", value)
+        self._showMe = value
+
         if value:
             self.toggleOn()
 
         else:
             self.toggleOff()
-
-        internalSetDefault("isVisible", value)
-        self._showMe = value
 
     def getButtonState(self):
         return bool(self._menuItem.state())

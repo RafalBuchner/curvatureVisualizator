@@ -66,18 +66,6 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         self.zoomVisualisation = internalGetDefault("exst_zoomVisualisation_CheckBox")
         self.absoluteVisualisationSize = internalGetDefault("exst_visualisationSize_Slider")["value"]
         visualisationType = internalGetDefault("exst_visualisationType_SegmentedButton_counterclockwise_clockwise_both")
-#         print(
-# f"""
-# steps = {self.steps}
-# colorPalette = {self.colorPalette}
-# strokeWidth = {self.strokeWidth}
-# showOptionsButtonInGlyphWindow = {self.showOptionsButtonInGlyphWindow}
-# showMe = {self.showMe}
-# zoomVisualisation = {self.zoomVisualisation}
-# absoluteVisualisationSize = {self.absoluteVisualisationSize}
-# visualisationType = {visualisationType}
-# """
-#         )
         if visualisationType == 2:
             self.clockwise, self.counterclockwise = True, True
         elif visualisationType == 1:
@@ -93,6 +81,11 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         if self.bgBaseLayer is None:
             return
         self.bgBaseLayer.setVisible(True)
+        if self.pen is not None:
+            print("AAA")
+            self.pen.resetMerzPens()
+            self.pen.setLengthMultiplier(self.visualisationSize) # faster than self.drawPath(info)
+            self.drawPath(dict(glyph=self.getGlyphEditor().getGlyph().asFontParts()))
 
     def toggleOff(self):
         if self.bgBaseLayer is None:

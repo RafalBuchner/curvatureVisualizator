@@ -28,6 +28,8 @@ def getDefaultsFromYaml():
     for default_name, default_dict in settings_dictionary["__defaults__"].items():
         vanillaObj = default_dict["vanillaObj"]
         value = default_dict["value"]
+        if vanillaObj == "ColorWell":
+            value = tuple(value)
 
         attributes = ""
         if "attributes" in default_dict.keys():
