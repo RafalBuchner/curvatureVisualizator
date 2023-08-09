@@ -31,5 +31,5 @@ More settings you will find in the `Extensions` > `Curvature Visualizator` > `Cu
 Maybe it is pointless or unnescessary, but I would like to share my opinion on the tools like these:
 - Remember, this is no more and no less the tool.
 - You should always use your own judgement whenever you are creating. Making every curvature "smooth" without the slightest brainwork will probably reflect in boring or repetitive designs.
-- You should know your tool; you should understand what it does. And I think you should control it and not let it control you.
+- You should know your tool; you should understand what it does. And, I think, you should control it and not let it control you.
 - Have fun using it. :)
