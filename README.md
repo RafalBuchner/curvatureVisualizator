@@ -16,11 +16,11 @@ All you need to do is activate it.
 
 You can access more options by clicking on the `options` button located in the bottom-right corner of the Glyph Edit Window.
 
-`Visualisation Size` controls how big the curvature representation is going to be.
+`Visualization Size` controls how big the curvature representation is going to be.
 
-`Visualisation Type` lets you decide which side of the outline will have its representation.
+`Visualization Type` lets you decide which side of the outline will have its representation.
 
-`Zoom visualisation` is a cool feature which will scale the whole curvature representation together with the zoom factor of your Glyph Edit Window.
+`Zoom visualization` is a cool feature which will scale the whole curvature representation together with the zoom factor of your Glyph Edit Window.
 
 To access additional settings, navigate to the `Curvature Visualizator Settings` menu button under `Extensions` > `Curvature Visualizator`.
 

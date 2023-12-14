@@ -25,13 +25,13 @@ __DEBUG__ = True
 class CurvatureVisualizatorSubscriber(DisplaySuscriber):
     debug = __DEBUG__
 
-    title = "curvature visualizator"
+    title = "Curvature Visualizator"
     scale = None
     bgBaseLayer = None
     outlineType = None
-    zoomVisualisation = None
-    absoluteVisualisationSize = None
-    visualisationSize = None
+    zoomVisualization = None
+    absoluteVisualizationSize = None
+    visualizationSize = None
     showOptionsButtonInGlyphWindow = None
     clockwise, counterclockwise = None, None
     def build(self):
@@ -49,7 +49,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         # controls
         self.optionsGroup = vui.Group((0, -200, -0, -0))
         self.optionsGroup.button = vui.Button((-141-6, -35-8, 120, 22),
-                                        "curvature options",
+                                        "Curvature Options",
                                         callback=self.curvatureOptionsCallback)
         nsObj = self.optionsGroup.button.getNSButton()
         nsObj.setBezelStyle_( NSRoundRectBezelStyle )
@@ -66,14 +66,14 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         self.strokeWidth = internalGetDefault("exst_strokeWidth_EditText_int")
         self.showOptionsButtonInGlyphWindow = internalGetDefault("exst_showOptionsButtonInGlyphWindow_CheckBox")
         self.showMe = internalGetDefault("isVisible")
-        self.zoomVisualisation = internalGetDefault("exst_zoomVisualisation_CheckBox")
-        self.absoluteVisualisationSize = internalGetDefault("exst_visualisationSize_Slider")["value"]
-        visualisationType = internalGetDefault("exst_visualisationType_SegmentedButton_counterclockwise_clockwise_both")
-        if visualisationType == 2:
+        self.zoomVisualization = internalGetDefault("exst_zoomVisualization_CheckBox")
+        self.absoluteVisualizationSize = internalGetDefault("exst_visualizationSize_Slider")["value"]
+        visualizationType = internalGetDefault("exst_visualizationType_SegmentedButton_counterclockwise_clockwise_both")
+        if visualizationType == 2:
             self.clockwise, self.counterclockwise = True, True
-        elif visualisationType == 1:
+        elif visualizationType == 1:
             self.clockwise, self.counterclockwise = True, False
-        elif visualisationType == 0:
+        elif visualizationType == 0:
             self.clockwise, self.counterclockwise = False, True
 
     def destroy(self):
@@ -87,7 +87,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         if self.pen is not None:
             print("AAA")
             self.pen.resetMerzPens()
-            self.pen.setLengthMultiplier(self.visualisationSize) # faster than self.drawPath(info)
+            self.pen.setLengthMultiplier(self.visualizationSize) # faster than self.drawPath(info)
             self.drawPath(dict(glyph=self.getGlyphEditor().getGlyph().asFontParts()))
 
     def toggleOff(self):
@@ -99,17 +99,17 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
     # Option Button
     #
     @property
-    def visualisationSize(self):
-        value = self.absoluteVisualisationSize
-        if self.zoomVisualisation:
+    def visualizationSize(self):
+        value = self.absoluteVisualizationSize
+        if self.zoomVisualization:
             value *= 1/self.scale
         return value
 
     def glyphEditorDidScale(self, info):
         self.scale = info["scale"]
-        if self.zoomVisualisation and self.pen is not None and self.showMe:
+        if self.zoomVisualization and self.pen is not None and self.showMe:
             self.pen.resetMerzPens()
-            self.pen.setLengthMultiplier(self.visualisationSize) # faster than self.drawPath(info)
+            self.pen.setLengthMultiplier(self.visualizationSize) # faster than self.drawPath(info)
             self.drawPath(info)
 
     def curvatureOptionsCallback(self, sender):
@@ -117,11 +117,11 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             self.pop = vui.Popover((300, 170), preferredEdge='bottom', behavior='transient')
 
             y = 10
-            self.pop.visualisationSizeText = vui.TextBox((10, y, -10, 20), 'visualisation size')
+            self.pop.visualizationSizeText = vui.TextBox((10, y, -10, 20), 'Visualization Size')
 
             y += 22+10
-            sliderDefaults =internalGetDefault("exst_visualisationSize_Slider")
-            self.pop.visualisationSize_Slider_int = vui.Slider(
+            sliderDefaults =internalGetDefault("exst_visualizationSize_Slider")
+            self.pop.visualizationSize_Slider_int = vui.Slider(
                 (10, y, -10, 20),
                 minValue=sliderDefaults.get("minValue"),
                 maxValue=sliderDefaults.get("maxValue"),
@@ -130,24 +130,24 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             )
 
             y += 22+10
-            self.pop.type = vui.TextBox((10, y, -10, 20), 'visualisation type')
+            self.pop.type = vui.TextBox((10, y, -10, 20), 'Visualization Type')
 
             y += 22+10
-            self.pop.visualisationType_SegmentedButton_counterclockwise_clockwise_both = vui.SegmentedButton((10, y, -10, 20),
+            self.pop.visualizationType_SegmentedButton_counterclockwise_clockwise_both = vui.SegmentedButton((10, y, -10, 20),
                          [dict(title="counterclockwise"), dict(title="clockwise"), dict(title="both")],
                         callback=self.settingsCallback)
-            self.pop.visualisationType_SegmentedButton_counterclockwise_clockwise_both.set(
-                internalGetDefault("exst_visualisationType_SegmentedButton_counterclockwise_clockwise_both")
+            self.pop.visualizationType_SegmentedButton_counterclockwise_clockwise_both.set(
+                internalGetDefault("exst_visualizationType_SegmentedButton_counterclockwise_clockwise_both")
             )
 
             y += 22+10
-            self.pop.zoomVisualisation_CheckBox = vui.CheckBox((10, y, 240, 20),
-                        "zoom visualisation",value=internalGetDefault("exst_zoomVisualisation_CheckBox"),
+            self.pop.zoomVisualization_CheckBox = vui.CheckBox((10, y, 240, 20),
+                        "zoom visualization",value=internalGetDefault("exst_zoomVisualization_CheckBox"),
                         callback=self.settingsCallback)
 
-            self.pop.visualisationSize_Slider_int._id = "exst_visualisationSize_Slider"
-            self.pop.visualisationType_SegmentedButton_counterclockwise_clockwise_both._id = "exst_visualisationType_SegmentedButton_counterclockwise_clockwise_both"
-            self.pop.zoomVisualisation_CheckBox._id = "exst_zoomVisualisation_CheckBox"
+            self.pop.visualizationSize_Slider_int._id = "exst_visualizationSize_Slider"
+            self.pop.visualizationType_SegmentedButton_counterclockwise_clockwise_both._id = "exst_visualizationType_SegmentedButton_counterclockwise_clockwise_both"
+            self.pop.zoomVisualization_CheckBox._id = "exst_zoomVisualization_CheckBox"
             self.pop.open(parentView=sender.getNSButton(), preferredEdge='top')
         except:
             import traceback
@@ -159,7 +159,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             if "_SliderInt" in sender._id:
                 value = int(value)
 
-            sliderDefaults =internalGetDefault("exst_visualisationSize_Slider")
+            sliderDefaults =internalGetDefault("exst_visualizationSize_Slider")
             value = dict(minValue=sliderDefaults.get("minValue"), maxValue=sliderDefaults.get("maxValue"), value=value)
             internalSetDefault(sender._id, value)
 
@@ -180,7 +180,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
     def extensionDefaultsChanged(self, event):
         self.loadDefaults()
         self.showCurvatureOptions()
-        self.pen = CurvaturePen(steps=self.steps, lengthMultiplier=self.visualisationSize, clockwise=self.clockwise, counterclockwise=self.counterclockwise, colorPalette=self.colorPalette, strokeWidth=self.strokeWidth, parentLayer=self.bgBaseLayer)
+        self.pen = CurvaturePen(steps=self.steps, lengthMultiplier=self.visualizationSize, clockwise=self.clockwise, counterclockwise=self.counterclockwise, colorPalette=self.colorPalette, strokeWidth=self.strokeWidth, parentLayer=self.bgBaseLayer)
         self.drawPath(dict(glyph=self.getGlyphEditor().getGlyph().asFontParts()))
 
     # def glyphEditorWantsContextualMenuItems(self, info):
@@ -195,7 +195,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
     def setGlyph(self, info):
         self.scale = info["glyphEditor"].getGlyphViewScale()
         glyph = info["glyph"]
-        self.pen = CurvaturePen(steps=self.steps, lengthMultiplier=self.visualisationSize, clockwise=self.clockwise, counterclockwise=self.counterclockwise, colorPalette=self.colorPalette, strokeWidth=self.strokeWidth, parentLayer=self.bgBaseLayer)
+        self.pen = CurvaturePen(steps=self.steps, lengthMultiplier=self.visualizationSize, clockwise=self.clockwise, counterclockwise=self.counterclockwise, colorPalette=self.colorPalette, strokeWidth=self.strokeWidth, parentLayer=self.bgBaseLayer)
 
     def glyphEditorDidSetGlyph(self, info):
         self.setGlyph(info)
