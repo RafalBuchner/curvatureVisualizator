@@ -22,7 +22,7 @@ You can access more options by clicking on the `options` button located in the b
 
 `Zoom visualization` is a cool feature which will scale the whole curvature representation together with the zoom factor of your Glyph Edit Window.
 
-To access additional settings, navigate to the `Curvature Visualizator Settings` menu button under `Extensions` > `Curvature Visualizator`.
+To access additional settings, navigate to the `Settings` menu button under `Extensions` > `Curvature Visualizator`.
 
 
 
