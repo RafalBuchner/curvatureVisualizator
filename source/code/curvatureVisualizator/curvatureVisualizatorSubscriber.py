@@ -85,7 +85,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             return
         self.bgBaseLayer.setVisible(True)
         if self.pen is not None:
-            print("AAA")
+            # print("AAA")
             self.pen.resetMerzPens()
             self.pen.setLengthMultiplier(self.visualizationSize) # faster than self.drawPath(info)
             self.drawPath(dict(glyph=self.getGlyphEditor().getGlyph().asFontParts()))

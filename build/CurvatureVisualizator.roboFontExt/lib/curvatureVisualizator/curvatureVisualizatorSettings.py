@@ -171,6 +171,7 @@ class ExtensionSettingsWindow:
                         key:dict(
                             width=numberEntryWidth,
                             valueType="number",
+                            minValue=3,
                             value=internalGetDefault(key)
                         )
                     }
