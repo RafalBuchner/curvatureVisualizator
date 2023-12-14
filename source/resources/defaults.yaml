@@ -1,7 +1,7 @@
-extensionName: CurveVisualizator
+extensionName: CurvatureVisualizator
 developerID: com.rafalbuchner
 __defaults__:
-    visualisationType:
+    visualizationType:
         vanillaObj: SegmentedButton
         value: 0
         attributes:
@@ -25,11 +25,11 @@ __defaults__:
         vanillaObj: CheckBox
         value: True
 
-    zoomVisualisation:
+    zoomVisualization:
         vanillaObj: CheckBox
         value: False
 
-    visualisationSize:
+    visualizationSize:
         vanillaObj: Slider
         value:
             minValue: 0

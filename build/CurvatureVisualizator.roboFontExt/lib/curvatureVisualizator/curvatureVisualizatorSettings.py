@@ -139,7 +139,7 @@ class ExtensionSettingsWindow:
                 txt = f": {title}:\n---X---                        @{key}"
                 _descriptionData = {
                     key:dict(
-                        continuous=False,
+                        continuous=True,
                         minValue=internalGetDefault(key)["minValue"],
                         maxValue=internalGetDefault(key)["maxValue"],
                         value=internalGetDefault(key)["value"]
@@ -166,11 +166,15 @@ class ExtensionSettingsWindow:
                 }
 
                 if "int" in args:
+                    minValue = 0
+                    if "division" in key:
+                        minValue = 3
                     txt = f": {title}:\n[_123_](±)                        @{key}"
                     _descriptionData = {
                         key:dict(
                             width=numberEntryWidth,
                             valueType="number",
+                            minValue=minValue,
                             value=internalGetDefault(key)
                         )
                     }
