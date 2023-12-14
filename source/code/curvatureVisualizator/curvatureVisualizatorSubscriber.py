@@ -234,14 +234,9 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
     pen = None
     def drawPath(self, info):
         if self.showMe:
-            # Set up a decomposed glyph object
-            glyph = info["glyph"]
-            font = glyph.font
-            self.decomp_glyph = RGlyph()
-            self.decomp_glyph.width = glyph.width
-            decomp_pen = DecomposePointPen(font, self.decomp_glyph.getPointPen())
-            glyph.drawPoints(decomp_pen)
-            self.decomp_glyph.draw(self.pen)
+            glyph = info["glyph"].copy()
+            glyph.clear(contours=False, components=True)
+            glyph.draw(self.pen)
             self.pen.draw()
 
     def menuButtonWasPressed(self, nsMenuItem):
