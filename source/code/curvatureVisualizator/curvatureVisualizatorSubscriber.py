@@ -1,10 +1,12 @@
 from curvatureVisualizator.curvatureGlyph_merz import CurvaturePen
 import vanilla as vui
 from AppKit import NSRoundRectBezelStyle
+from fontParts.world import RGlyph
 from fontTools.pens.transformPen import TransformPointPen, TransformPen
 from fontTools.misc.transform import Transform
 from curvatureVisualizator.displaySubscriber import DisplaySuscriber
 from mojo import subscriber, events
+from mojo.pens import DecomposePointPen
 from merz import MerzPen
 from curvatureVisualizator.curvatureVisualizatorSettings import (
     internalGetDefault,
@@ -52,6 +54,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         nsObj = self.optionsGroup.button.getNSButton()
         nsObj.setBezelStyle_( NSRoundRectBezelStyle )
         window.addGlyphEditorSubview(self.optionsGroup)
+        self.optionsGroup.show(False)
         self.showCurvatureOptions()
         events.addObserver(
             self, "extensionDefaultsChanged", extensionKeyStub + "defaultsChanged"
@@ -231,7 +234,14 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
     pen = None
     def drawPath(self, info):
         if self.showMe:
-            info["glyph"].draw(self.pen)
+            # Set up a decomposed glyph object
+            glyph = info["glyph"]
+            font = glyph.font
+            self.decomp_glyph = RGlyph()
+            self.decomp_glyph.width = glyph.width
+            decomp_pen = DecomposePointPen(font, self.decomp_glyph.getPointPen())
+            glyph.drawPoints(decomp_pen)
+            self.decomp_glyph.draw(self.pen)
             self.pen.draw()
 
     def menuButtonWasPressed(self, nsMenuItem):
