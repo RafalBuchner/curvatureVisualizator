@@ -166,12 +166,15 @@ class ExtensionSettingsWindow:
                 }
 
                 if "int" in args:
+                    minValue = 0
+                    if "division" in key:
+                        minValue = 3
                     txt = f": {title}:\n[_123_](±)                        @{key}"
                     _descriptionData = {
                         key:dict(
                             width=numberEntryWidth,
                             valueType="number",
-                            minValue=3,
+                            minValue=minValue,
                             value=internalGetDefault(key)
                         )
                     }
