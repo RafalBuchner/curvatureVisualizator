@@ -139,7 +139,7 @@ class ExtensionSettingsWindow:
                 txt = f": {title}:\n---X---                        @{key}"
                 _descriptionData = {
                     key:dict(
-                        continuous=False,
+                        continuous=True,
                         minValue=internalGetDefault(key)["minValue"],
                         maxValue=internalGetDefault(key)["maxValue"],
                         value=internalGetDefault(key)["value"]
