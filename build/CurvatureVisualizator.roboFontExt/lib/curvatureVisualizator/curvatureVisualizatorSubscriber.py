@@ -39,12 +39,12 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
 
 
         window = self.getGlyphEditor()
-        self.backgroundContainer = window.extensionContainer(
-            identifier=extensionKeyStub + "background",
-            location="background",
+        self.middlegroundContainer = window.extensionContainer(
+            identifier=extensionKeyStub + "middleground",
+            location="middleground",
             clear=True,
         )
-        self.bgBaseLayer = self.backgroundContainer.appendBaseSublayer()
+        self.bgBaseLayer = self.middlegroundContainer.appendBaseSublayer()
 
         # controls
         self.optionsGroup = vui.Group((0, -200, -0, -0))
@@ -77,7 +77,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             self.clockwise, self.counterclockwise = False, True
 
     def destroy(self):
-        self.backgroundContainer.clearSublayers()
+        self.middlegroundContainer.clearSublayers()
         events.removeObserver(self, extensionKeyStub + "defaultsChanged")
 
     def toggleOn(self):
