@@ -201,14 +201,6 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         self.setGlyph(info)
         self.drawPath(info)
 
-    def glyphEditorDidKeyDown(self, info):
-        try:
-            self.pen.resetMerzPens()
-            self.drawPath(info)
-        except:
-            import traceback
-            print(traceback.format_exc())
-
     def glyphEditorDidUndo(self, info):
         try:
             self.pen.resetMerzPens()
@@ -217,7 +209,26 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
             import traceback
             print(traceback.format_exc())
 
-    def glyphEditorDidMouseDrag(self, info):
+    glyphEditorGlyphDidChangeOutlineDelay = 0
+    def glyphEditorGlyphDidChangeOutline(self, info):
+        try:
+            self.pen.resetMerzPens()
+            self.drawPath(info)
+        except:
+            import traceback
+            print(traceback.format_exc())
+
+    glyphEditorGlyphDidChangeContoursDelay = 0
+    def glyphEditorGlyphDidChangeContours(self, info):
+        try:
+            self.pen.resetMerzPens()
+            self.drawPath(info)
+        except:
+            import traceback
+            print(traceback.format_exc())
+
+    glyphEditorGlyphDidChangeMetricsDelay = 0
+    def glyphEditorGlyphDidChangeMetrics(self, info):
         try:
             self.pen.resetMerzPens()
             self.drawPath(info)
@@ -231,13 +242,7 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         self.drawPath(info)
         self.showCurvatureOptions()
 
-    def glyphEditorGlyphDidChangeOutline(self, info):
-        try:
-            self.pen.resetMerzPens()
-            self.drawPath(info)
-        except:
-            import traceback
-            print(traceback.format_exc())
+
 
     pen = None
     def drawPath(self, info):
