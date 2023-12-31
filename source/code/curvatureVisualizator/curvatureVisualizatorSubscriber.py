@@ -231,6 +231,14 @@ class CurvatureVisualizatorSubscriber(DisplaySuscriber):
         self.drawPath(info)
         self.showCurvatureOptions()
 
+    def glyphEditorGlyphDidChangeOutline(self, info):
+        try:
+            self.pen.resetMerzPens()
+            self.drawPath(info)
+        except:
+            import traceback
+            print(traceback.format_exc())
+
     pen = None
     def drawPath(self, info):
         if self.showMe:
