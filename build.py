@@ -3,7 +3,7 @@
 import os
 from mojo.extensions import ExtensionBundle
 
-__version__ = "0.5.2"
+__version__ = "0.6"
 
 def exec_cmd(cmd):
     import subprocess

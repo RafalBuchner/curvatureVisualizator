@@ -12,4 +12,4 @@ Additional options you will find in the `options` button that will appear in the
 
 Even more, settings you will find in the `Extensions` menu.
 
-A cool feature is `zoom visualisation`, which will scale the whole curvature representation together with the zoom factor of your Glyph Edit Window.
+A cool feature is `zoom visualization`, which will scale the whole curvature representation together with the zoom factor of your Glyph Edit Window.

@@ -105,14 +105,14 @@ class ExtensionSettingsWindow:
         self.w.open()
 
     def buildContnentAndDescription(self):
-        colorWellWidth = 100
+        colorWellWidth = 65
         colorWellHeight = 20
-        numberEntryWidth = 75
+        numberEntryWidth = 65
 
         descriptionData = dict(
             content=dict(
                 titleColumnWidth=125,
-                itemColumnWidth=265
+                itemColumnWidth=260
             )
         )
         content = "= TwoColumnForm\n\n"
@@ -139,7 +139,7 @@ class ExtensionSettingsWindow:
                 txt = f": {title}:\n---X---                        @{key}"
                 _descriptionData = {
                     key:dict(
-                        continuous=False,
+                        continuous=True,
                         minValue=internalGetDefault(key)["minValue"],
                         maxValue=internalGetDefault(key)["maxValue"],
                         value=internalGetDefault(key)["value"]
@@ -166,11 +166,15 @@ class ExtensionSettingsWindow:
                 }
 
                 if "int" in args:
+                    minValue = 0
+                    if "division" in key:
+                        minValue = 3
                     txt = f": {title}:\n[_123_](±)                        @{key}"
                     _descriptionData = {
                         key:dict(
-                            width=numberEntryWidth,
+                            textFieldWidth=numberEntryWidth,
                             valueType="number",
+                            minValue=minValue,
                             value=internalGetDefault(key)
                         )
                     }

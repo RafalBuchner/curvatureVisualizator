@@ -61,7 +61,7 @@ class ExtensionSettings:
             # create settings NSMenuItem
             self.extensionSettingsInfoTarget = CallbackWrapper(self.extensionSettingsInfoCallback)
             extensionSettingsMenuItem = AppKit.NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(
-                title+" Settings",
+                "Settings",
                 "action:",
                 ""
             )
