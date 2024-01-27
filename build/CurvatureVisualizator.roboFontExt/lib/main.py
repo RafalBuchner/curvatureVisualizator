@@ -6,30 +6,6 @@ from mojo import subscriber, events
 from collections import OrderedDict
 import yaml, pprint, AppKit
 
-## https://stackoverflow.com/questions/7367438/sort-nsmenuitems-alphabetically-and-by-whether-they-have-submenus-or-not
-def sortMenu(menu):
-    itemArray = menu.itemArray().copy()
-    menu.removeAllItems()
-
-    # create a descriptor that will sort files alphabetically
-    alphaDescriptor = AppKit.NSSortDescriptor.alloc().initWithKey_ascending_("title", True)
-    itemArray = itemArray.sortedArrayUsingDescriptors_([alphaDescriptor])
-
-    # create a descriptor that will sort files alphabetically and based on existance of submenus
-    # submenuDescriptor = AppKit.NSSortDescriptor.alloc().initWithKey_ascending_("hasSubmenu", False)
-    # itemArray = itemArray.sortedArrayUsingDescriptors_([submenuDescriptor,alphaDescriptor])
-    for item in itemArray:
-        menu.addItem_(item)
-
-        # The following code fixes NSPopUpButton's confusion that occurs when
-        # we sort this list. NSPopUpButton listens to the NSMenu's add notifications
-        # and hides the first item. Sorting this blows it up.
-        if item.isHidden():
-            item.setHidden_(False)
-
-        # While we're looping, if there's a submenu, go ahead and sort that, too.
-        if item.hasSubmenu():
-            sortMenu(item.submenu())
 
 class ExtensionSettings:
     def __init__(self):
@@ -49,6 +25,8 @@ class ExtensionSettings:
 
         extensionsItem = menubar.itemWithTitle_("Extensions")
         extensionsMenu = extensionsItem.submenu()
+
+
         mySubMenuItem = extensionsMenu.itemWithTitle_(title)
 
         if not mySubMenuItem:
@@ -66,10 +44,47 @@ class ExtensionSettings:
                 ""
             )
             extensionSettingsMenuItem.setTarget_(self.extensionSettingsInfoTarget)
-            mySubMenu.insertItem_atIndex_(extensionSettingsMenuItem, 0)
+            mySubMenu.addItem_(extensionSettingsMenuItem)
 
-            extensionsMenu.insertItem_atIndex_(mySubMenuItem, 0)
-            sortMenu(extensionsMenu)
+            extensionsMenu.addItem_(mySubMenuItem)
+
+        # really stupid way to examine if zenExtensions
+        zenExtensionsInstalled = ExtensionBundle("ZenExtensions").bundleExists()
+        
+        self.sortMenu(extensionsMenu, zenExtensionsInstalled)
+
+
+    def sortMenu(self, menu, zenExtensionsInstalled):
+        itemArray = menu.itemArray().copy()
+
+        # Create a descriptor that will sort files alphabetically
+        alphaDescriptor = AppKit.NSSortDescriptor.alloc().initWithKey_ascending_("title", True)
+
+        # Create a descriptor that will sort files alphabetically and based on existance of submenus
+        submenuDescriptor = AppKit.NSSortDescriptor.alloc().initWithKey_ascending_("hasSubmenu", False)
+        if zenExtensionsInstalled:
+            itemArray = itemArray.sortedArrayUsingDescriptors_([submenuDescriptor, alphaDescriptor])
+        else:
+            itemArray = itemArray.sortedArrayUsingDescriptors_([alphaDescriptor])
+        bottomItems = []
+        newItemArray = AppKit.NSMutableArray.alloc().init()
+        for item in itemArray:
+            if item.title() in ["Mechanic 2"]:
+                bottomItems.append(item)
+                continue
+            newItemArray.addObject_(item)
+            # The following code fixes NSPopUpButton's confusion that occurs when
+            # we sort this list. NSPopUpButton listens to the NSMenu's add notifications
+            # and hides the first item. Sorting this blows it up.
+            if item.isHidden():
+                item.setHidden_(False)
+
+        newItemArray.addObject_(AppKit.NSMenuItem.separatorItem())
+        for item in bottomItems:
+            newItemArray.addObject_(item)
+        test = AppKit.NSArray.alloc().initWithArray_(newItemArray)
+        menu.setItemArray_(test)
+
 
 
 

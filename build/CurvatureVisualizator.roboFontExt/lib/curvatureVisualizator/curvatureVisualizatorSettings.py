@@ -234,25 +234,26 @@ class ExtensionSettingsWindow:
 
 
 
-note = """
-The settings window is only available in
-RoboFont 4.2+
-""".strip()
+# note = """
+# The settings window is only available in
+# RoboFont 4.2+
+# """.strip()
 
-def ExtensionSettingsWindowController(*args, **kwargs):
-    from mojo import roboFont
+# def ExtensionSettingsWindowController(*args, **kwargs):
+#     from mojo import roboFont
 
-    version = roboFont.version
-    versionMajor, versionMinor = version.split(".", 1)
-    versionMinor = versionMinor.split(".")[0]
-    versionMajor = "".join([i for i in versionMajor if i in "0123456789"])
-    versionMinor = "".join([i for i in versionMinor if i in "0123456789"])
-    versionMajor = int(versionMajor)
-    versionMinor = int(versionMinor)
-    if versionMajor == 4 and versionMinor < 2:
-        print(note)
-    else:
-        _ExtensionwSettingsWindowController(*args, **kwargs)
+#     version = roboFont.version
+#     versionMajor, versionMinor = version.split(".", 1)
+#     versionMinor = versionMinor.split(".")[0]
+#     versionMajor = "".join([i for i in versionMajor if i in "0123456789"])
+#     versionMinor = "".join([i for i in versionMinor if i in "0123456789"])
+#     versionMajor = int(versionMajor)
+#     versionMinor = int(versionMinor)
+#     if versionMajor == 4 and versionMinor < 2:
+#         print(note)
+#     else:
+#         _ExtensionwSettingsWindowController(*args, **kwargs)
+
 
 # from mojo.UI import OutputWindow
 # OutputWindow().clear()
